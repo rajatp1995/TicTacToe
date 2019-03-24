@@ -1,0 +1,167 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="#dad5fd"
+    tools:context=".MainActivity">
+
+    <Button
+        android:id="@+id/twoPlayer_button"
+        android:layout_marginTop="30dp"
+        android:layout_marginLeft="20dp"
+        android:layout_marginRight="20dp"
+        android:text="Two Players"
+        android:background="@drawable/three"
+        android:onClick="startTwoPlayers"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+    </Button>
+
+    <Button
+        android:id="@+id/multiPlayer_button"
+        android:layout_below="@id/twoPlayer_button"
+        android:layout_marginTop="30dp"
+        android:layout_marginLeft="20dp"
+        android:layout_marginRight="20dp"
+        android:text="Online Multiplayer"
+        android:background="@drawable/three"
+        android:onClick="startmultiPlayer"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+    </Button>
+
+    <Button
+        android:id="@+id/onePlayer_button"
+        android:layout_below="@id/multiPlayer_button"
+        android:layout_marginTop="30dp"
+        android:layout_marginLeft="20dp"
+        android:layout_marginRight="20dp"
+        android:text="Play against Android"
+        android:background="@drawable/three"
+        android:onClick="startOnePlayer"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+    </Button>
+
+
+    <RelativeLayout
+        android:id="@+id/temp1"
+        android:layout_marginTop="10dp"
+        android:layout_below="@id/onePlayer_button"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <EditText
+            android:id="@+id/player1Details"
+            android:layout_marginTop="40dp"
+            android:layout_marginRight="20dp"
+            android:layout_marginLeft="20dp"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:hint="Enter Player 1's Name">
+        </EditText>
+
+        <EditText
+            android:id="@+id/player2Details"
+            android:layout_below="@id/player1Details"
+            android:layout_marginTop="20dp"
+            android:layout_marginRight="20dp"
+            android:layout_marginLeft="20dp"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:hint="Enter Player 2's Name">
+        </EditText>
+
+        <Button
+            android:id="@+id/start2PlayerGame_button"
+            android:layout_below="@id/player2Details"
+            android:layout_marginLeft="20dp"
+            android:layout_marginRight="20dp"
+            android:layout_marginTop="20dp"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="@drawable/three"
+            android:text="Start Game"
+            android:onClick="startPlayer2Game">
+        </Button>
+
+    </RelativeLayout>
+
+    <RelativeLayout
+        android:id="@+id/temp2"
+        android:layout_marginTop="10dp"
+        android:layout_below="@id/temp1"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <EditText
+            android:id="@+id/onePlayerDetails"
+            android:layout_marginTop="20dp"
+            android:layout_marginRight="20dp"
+            android:layout_marginLeft="20dp"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:hint="Enter Player 1's Name">
+        </EditText>
+
+        <Button
+            android:id="@+id/onePlayerGame_button"
+            android:layout_below="@id/onePlayerDetails"
+            android:layout_marginLeft="20dp"
+            android:layout_marginRight="20dp"
+            android:layout_marginTop="20dp"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="@drawable/three"
+            android:text="Start Game"
+            android:onClick="startPlayer1Game">
+        </Button>
+
+    </RelativeLayout>
+
+    <RelativeLayout
+        android:id="@+id/temp3"
+        android:layout_below="@+id/temp2"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <EditText
+            android:id="@+id/localplayerDetails"
+            android:layout_marginTop="40dp"
+            android:layout_marginRight="20dp"
+            android:layout_marginLeft="20dp"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:hint="Enter your Name">
+        </EditText>
+
+        <EditText
+            android:id="@+id/roomDetails"
+            android:layout_below="@id/localplayerDetails"
+            android:layout_marginTop="20dp"
+            android:layout_marginRight="20dp"
+            android:layout_marginLeft="20dp"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:hint="Create/Join a Game Room">
+        </EditText>
+
+        <Button
+            android:id="@+id/startmultiPlayerGame_button"
+            android:layout_below="@id/roomDetails"
+            android:layout_marginLeft="20dp"
+            android:layout_marginRight="20dp"
+            android:layout_marginTop="20dp"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="@drawable/three"
+            android:text="Start Game"
+            android:onClick="startmultiPlayerGame">
+        </Button>
+
+    </RelativeLayout>
+
+
+</RelativeLayout>

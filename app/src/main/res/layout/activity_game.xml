@@ -1,0 +1,197 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="#dad5fd"
+    tools:context=".GameActivity">
+
+    <TextView
+        android:id="@+id/player1Name"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@drawable/three"
+        android:textStyle="bold"
+        android:layout_marginTop="20dp"
+        android:layout_marginRight="20dp"
+        android:layout_marginLeft="20dp">
+    </TextView>
+
+    <TextView
+        android:id="@+id/player2Name"
+        android:layout_below="@id/player1Name"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@drawable/three"
+        android:textStyle="bold"
+        android:layout_marginTop="20dp"
+        android:layout_marginRight="20dp"
+        android:layout_marginLeft="20dp">
+    </TextView>
+
+    <TableLayout
+        android:id="@+id/ticTacToeTable"
+        android:layout_below="@id/player2Name"
+        android:layout_marginTop="40dp"
+        android:layout_marginLeft="20dp"
+        android:layout_marginRight="20dp"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:stretchColumns="0,1,2">
+
+        <TableRow>
+            <TextView
+                android:id="@+id/pos_1"
+                android:tag="pos_0"
+                android:layout_height="60dp"
+                android:background="@drawable/one"
+                android:onClick="chancePlayed">
+            </TextView>
+            <TextView
+                android:id="@+id/pos_2"
+                android:tag="pos_1"
+                android:layout_height="60dp"
+                android:background="@drawable/one"
+                android:onClick="chancePlayed">
+            </TextView>
+            <TextView
+                android:id="@+id/pos_3"
+                android:tag="pos_2"
+                android:layout_height="60dp"
+                android:background="@drawable/one"
+                android:onClick="chancePlayed">
+            </TextView>
+        </TableRow>
+
+        <TableRow>
+            <TextView
+                android:id="@+id/pos_4"
+                android:tag="pos_3"
+                android:layout_height="60dp"
+                android:background="@drawable/one"
+                android:onClick="chancePlayed">
+            </TextView>
+            <TextView
+                android:id="@+id/pos_5"
+                android:tag="pos_4"
+                android:layout_height="60dp"
+                android:background="@drawable/one"
+                android:onClick="chancePlayed">
+            </TextView>
+            <TextView
+                android:id="@+id/pos_6"
+                android:tag="pos_5"
+                android:layout_height="60dp"
+                android:background="@drawable/one"
+                android:onClick="chancePlayed">
+            </TextView>
+        </TableRow>
+
+        <TableRow>
+            <TextView
+                android:id="@+id/pos_7"
+                android:tag="pos_6"
+                android:layout_height="60dp"
+                android:background="@drawable/one"
+                android:onClick="chancePlayed">
+            </TextView>
+            <TextView
+                android:id="@+id/pos_8"
+                android:tag="pos_7"
+                android:layout_height="60dp"
+                android:background="@drawable/one"
+                android:onClick="chancePlayed">
+            </TextView>
+            <TextView
+                android:id="@+id/pos_9"
+                android:tag="pos_8"
+                android:layout_height="60dp"
+                android:background="@drawable/one"
+                android:onClick="chancePlayed">
+            </TextView>
+        </TableRow>
+
+    </TableLayout>
+
+    <TextView
+        android:id="@+id/winnerDisplay"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/ticTacToeTable"
+        android:layout_marginTop="30dp"
+        android:layout_marginLeft="20dp"
+        android:layout_marginRight="20dp"
+        android:text="Game in progress.."
+        android:textStyle="bold"
+        android:textAlignment="center"
+        android:textSize="18dp">
+    </TextView>
+
+    <Button
+        android:id="@+id/restartGame_button"
+        android:layout_below="@id/winnerDisplay"
+        android:layout_marginTop="30dp"
+        android:layout_marginLeft="40dp"
+        android:layout_marginRight="40dp"
+        android:background="@drawable/three"
+        android:text="Play Again"
+        android:onClick="restartGame"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+    </Button>
+
+
+    <TableLayout
+        android:id="@+id/scoreCard"
+        android:background="@drawable/five"
+        android:layout_alignParentBottom="true"
+
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:stretchColumns="*">
+
+        <TableRow>
+
+            <TextView
+                android:text="Score Card:"
+                android:padding="5dp"
+                android:textStyle="bold|italic"
+                android:layout_height="wrap_content"
+                android:layout_width="wrap_content"
+                android:textSize="20dp">
+            </TextView>
+
+        </TableRow>
+
+        <TableRow>
+
+            <TextView
+                android:id="@+id/scoreP1"
+                android:background="@drawable/one"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="10dp"
+                android:layout_marginLeft="5dp"
+                android:textSize="15dp"
+                android:padding="10dp"
+                android:text="">
+            </TextView>
+
+            <TextView
+                android:id="@+id/scoreP2"
+                android:background="@drawable/one"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="10dp"
+                android:layout_marginRight="5dp"
+                android:textSize="15dp"
+                android:padding="10dp"
+                android:text="">
+            </TextView>
+
+        </TableRow>
+
+    </TableLayout>
+
+</RelativeLayout>
