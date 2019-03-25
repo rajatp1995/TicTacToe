@@ -1,36 +1,11 @@
 package com.rajatp.tictactoe;
 
 public class OnlineGameData {
-    String gameRoom;
-    String player1;
-    String player2;
     String onlineData;
+    String currentTurn;
+    String currentState;
 
     public OnlineGameData() {
-    }
-
-    public String getGameRoom() {
-        return gameRoom;
-    }
-
-    public void setGameRoom(String gameRoom) {
-        this.gameRoom = gameRoom;
-    }
-
-    public String getPlayer1() {
-        return player1;
-    }
-
-    public void setPlayer1(String player1) {
-        this.player1 = player1;
-    }
-
-    public String getPlayer2() {
-        return player2;
-    }
-
-    public void setPlayer2(String player2) {
-        this.player2 = player2;
     }
 
     public String getOnlineData() {
@@ -39,5 +14,21 @@ public class OnlineGameData {
 
     public void setOnlineData(String onlineData) {
         this.onlineData = onlineData;
+    }
+
+    public String getCurrentTurn() {
+        return currentTurn;
+    }
+
+    public void setCurrentTurn(String currentTurn) {
+        this.currentTurn = currentTurn;
+    }
+
+    public String getCurrentState() {
+        return currentState;
+    }
+
+    public void setCurrentState(String currentState) {
+        this.currentState = currentState;
     }
 }

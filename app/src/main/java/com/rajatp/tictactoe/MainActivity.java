@@ -81,7 +81,6 @@ public class MainActivity extends AppCompatActivity {
     }
 
     public void startmultiPlayerGame(View view) {
-        final OnlineGameData obj = new OnlineGameData();
         final EditText localPlayer = (EditText) findViewById(R.id.localplayerDetails);
         final EditText gameRoom = (EditText) findViewById(R.id.roomDetails);
         myGameRef = database.getReference(gameRoom.getText().toString());
@@ -89,6 +88,7 @@ public class MainActivity extends AppCompatActivity {
         myGameRef.child(tempPlayerKey).setValue(localPlayer.getText().toString());
         Intent intent = new Intent(getApplicationContext(), OnlineMultiplayerActivity.class);
         intent.putExtra("gameRoom", gameRoom.getText().toString());
+        intent.putExtra("localPlayer", localPlayer.getText().toString());
         startActivity(intent);
         overridePendingTransition(R.anim.fade_in, R.anim.fade_out);
 
