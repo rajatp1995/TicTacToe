@@ -86,7 +86,6 @@ public class OnlineMultiplayerActivity extends AppCompatActivity {
             winner.setText("Game in progress");
             player1 = listNames.get(0);
             player2 = listNames.get(1);
-
             player1TV = (TextView) findViewById(R.id.player1Name);
             player1TV.setText("Player 1 is " + listNames.get(0) + ", playing as X");
             player2TV = (TextView) findViewById(R.id.player2Name);
@@ -254,7 +253,7 @@ public class OnlineMultiplayerActivity extends AppCompatActivity {
 
         int tieChecker=0;
         for(int j=0;j<9;j++) if (gameData.get(j).equals("X") || gameData.get(j).equals("O")) tieChecker++;
-        if (tieChecker==8 && end==0) winnnerDisp();
+        if (tieChecker==9 && end==0) winnnerDisp();
     }
 
     public void winnnerDisp() {
@@ -317,5 +316,4 @@ public class OnlineMultiplayerActivity extends AppCompatActivity {
         startActivity(intent);
         overridePendingTransition(R.anim.fade_in, R.anim.fade_out);
     }
-
 }
