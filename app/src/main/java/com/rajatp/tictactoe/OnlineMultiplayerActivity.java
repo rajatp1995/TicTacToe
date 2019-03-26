@@ -28,7 +28,7 @@ public class OnlineMultiplayerActivity extends AppCompatActivity {
     DatabaseReference myGameRef;
     DatabaseReference myGameRefPlay;
     ValueEventListener onlineData, onlinePlayData;
-    int currentPos=0, i=0, end=0, flagWinner=0, winnerDecided=0, flagPlayerSet=0;
+    int currentPos=0, i=0, end=0, flagWinner=0, winnerDecided=0, first=0;
     List<String> gameData = new ArrayList<>();
     String player="", player1="", player2="", gameRoom="", currentTurn="", currentState="";
     TextView player1TV, player2TV, winner, score1, score2;
@@ -50,13 +50,15 @@ public class OnlineMultiplayerActivity extends AppCompatActivity {
 
         player = (String) getIntent().getSerializableExtra("localPlayer");
         player1TV = (TextView) findViewById(R.id.player1Name);
-        player1TV.setText("Awaiting..");
+        player1TV.setText("You're connected..");
         player2TV = (TextView) findViewById(R.id.player2Name);
-        player2TV.setText("Awaiting..");
+        player2TV.setText("Waiting for Player 2..");
         restart = (Button) findViewById(R.id.restartGame_button);
         winner = (TextView) findViewById(R.id.winnerDisplay);
         restart.setVisibility(View.INVISIBLE);
         winner.setText("Game not yet started");
+        tictactoe = (TableLayout) findViewById(R.id.ticTacToeTable);
+        tictactoe.setVisibility(View.INVISIBLE);
 
         onlineData = new ValueEventListener() {
             @Override
@@ -96,6 +98,7 @@ public class OnlineMultiplayerActivity extends AppCompatActivity {
             score1.setText(player1 + ": " + scorePlayer1);
             score2.setText(player2 + ": " + scorePlayer2);
             tictactoe = (TableLayout) findViewById(R.id.ticTacToeTable);
+            tictactoe.setVisibility(View.VISIBLE);
             for (int j = 0; j < 9; j++) {
                 String tagTemp = "pos_" + j;
                 TextView tempTX = (TextView) tictactoe.findViewWithTag(tagTemp);
@@ -135,6 +138,7 @@ public class OnlineMultiplayerActivity extends AppCompatActivity {
     }
 
     public void createBoard() {
+        if (first!=0) mPlayer.start();
         tictactoe = (TableLayout) findViewById(R.id.ticTacToeTable);
         for(int j=0;j<9;j++) {
             if (gameData.get(j).equals("X") || gameData.get(j).equals("O")) {
@@ -155,6 +159,7 @@ public class OnlineMultiplayerActivity extends AppCompatActivity {
     }
 
     public void chancePlayed (View view) {
+        first=1;
         OnlineGameData gameObj = new OnlineGameData();
         if (flagWinner == 0) {
             if (currentTurn.equals(player)) {
@@ -198,70 +203,75 @@ public class OnlineMultiplayerActivity extends AppCompatActivity {
     }
 
     public void checkWinner() {
-        if (gameData.get(0)==gameData.get(1) && gameData.get(1)==gameData.get(2)) {
-            Log.i("aaaa", "called");
+        if (gameData.get(0).equals(gameData.get(1)) && gameData.get(1).equals(gameData.get(2))) {
             end=1;
             highlight(0,1,2);
             winnnerDisp();
             winnerDecided=1;
         }
-        if (gameData.get(3)==gameData.get(4) && gameData.get(4)==gameData.get(5)) {
+        if (gameData.get(3).equals(gameData.get(4)) && gameData.get(4).equals(gameData.get(5))) {
             end=1;
             highlight(3,4,5);
             winnnerDisp();
             winnerDecided=1;
         }
-        if (gameData.get(6)==gameData.get(7) && gameData.get(7)==gameData.get(8)) {
+        if (gameData.get(6).equals(gameData.get(7)) && gameData.get(7).equals(gameData.get(8))) {
             end=1;
             highlight(6,7,8);
             winnnerDisp();
+            winnerDecided=1;
         }
-        if (gameData.get(0)==gameData.get(3) && gameData.get(3)==gameData.get(6)) {
+        if (gameData.get(0).equals(gameData.get(3)) && gameData.get(3).equals(gameData.get(6))) {
             end=1;
             highlight(0,3,6);
             winnnerDisp();
             winnerDecided=1;
         }
-        if (gameData.get(1)==gameData.get(4) && gameData.get(4)==gameData.get(7)) {
+        if (gameData.get(1).equals(gameData.get(4)) && gameData.get(4).equals(gameData.get(7))) {
             end=1;
             highlight(1,4,7);
             winnnerDisp();
+            winnerDecided=1;
         }
-        if (gameData.get(2)==gameData.get(5) && gameData.get(5)==gameData.get(8)) {
+        if (gameData.get(2).equals(gameData.get(5)) && gameData.get(5).equals(gameData.get(8))) {
             end=1;
             highlight(2,5,8);
             winnnerDisp();
             winnerDecided=1;
         }
-        if (gameData.get(0)==gameData.get(4) && gameData.get(4)==gameData.get(8)) {
+        if (gameData.get(0).equals(gameData.get(4)) && gameData.get(4).equals(gameData.get(8))) {
             end=1;
             highlight(0,4,8);
             winnnerDisp();
             winnerDecided=1;
         }
-        if (gameData.get(2)==gameData.get(4) && gameData.get(4)==gameData.get(6)) {
+        if (gameData.get(2).equals(gameData.get(4)) && gameData.get(4).equals(gameData.get(6))) {
             end=1;
             highlight(2,4,6);
             winnnerDisp();
             winnerDecided=1;
         }
-        if (currentPos==8 && end==0){
-            winnnerDisp();
-        }
+
+        int tieChecker=0;
+        for(int j=0;j<9;j++) if (gameData.get(j).equals("X") || gameData.get(j).equals("O")) tieChecker++;
+        if (tieChecker==8 && end==0) winnnerDisp();
     }
 
     public void winnnerDisp() {
         winner = (TextView) findViewById(R.id.winnerDisplay);
         if (end==0) winner.setText("Game ended in a tie");
-        else winner.setText(currentTurn + " won the game");
+        else {
+            if (currentTurn.equals(player1)) winner.setText(player2 + " won the game");
+            if (currentTurn.equals(player2)) winner.setText(player1 + " won the game");
+        }
         flagWinner=1;
         myGameRefPlay.removeEventListener(onlinePlayData);
         restart.setVisibility(View.VISIBLE);
         tictactoe = (TableLayout) findViewById(R.id.ticTacToeTable);
         if (winnerDecided==0) {
             if (end != 0) {
-                if (currentTurn == player1) scorePlayer1++;
-                if (currentTurn == player2) scorePlayer2++;
+                if (currentTurn.equals(player1)) scorePlayer2++;
+                if (currentTurn.equals(player2)) scorePlayer1++;
                 score1.setText(player1 + ": " + scorePlayer1);
                 score2.setText(player2 + ": " + scorePlayer2);
             }
@@ -282,7 +292,7 @@ public class OnlineMultiplayerActivity extends AppCompatActivity {
     }
 
     public void restartGame(View view) {
-        currentPos=0; i=0; end=0; flagWinner=0;
+        currentPos=0; i=0; end=0; flagWinner=0; winnerDecided=0; first=0;
         gameData.clear();
         for (i=0;i<9;i++) gameData.add(Integer.toString(i));
         restart.setVisibility(View.INVISIBLE);
@@ -295,6 +305,8 @@ public class OnlineMultiplayerActivity extends AppCompatActivity {
             tempTX.setBackground(getResources().getDrawable(R.drawable.one));
             tempTX.setText(null);
         }
+        myGameRefPlay.removeEventListener(onlinePlayData);
+        myGameRefPlay.child("").removeValue();
         startGame();
     }
 

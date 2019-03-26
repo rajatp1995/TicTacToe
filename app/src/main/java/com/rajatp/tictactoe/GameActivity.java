@@ -112,6 +112,7 @@ public class GameActivity extends AppCompatActivity {
             end=1;
             highlight(6,7,8);
             winnnerDisp();
+            winnerDecided=1;
         }
         if (gameData.get(0)==gameData.get(3) && gameData.get(3)==gameData.get(6)) {
             end=1;
@@ -123,6 +124,7 @@ public class GameActivity extends AppCompatActivity {
             end=1;
             highlight(1,4,7);
             winnnerDisp();
+            winnerDecided=1;
         }
         if (gameData.get(2)==gameData.get(5) && gameData.get(5)==gameData.get(8)) {
             end=1;
