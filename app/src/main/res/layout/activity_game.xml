@@ -141,12 +141,26 @@
         android:layout_height="wrap_content">
     </Button>
 
+    <TextView
+        android:id="@+id/currentTurn"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/restartGame_button"
+        android:layout_marginTop="40dp"
+        android:layout_marginLeft="20dp"
+        android:layout_marginRight="20dp"
+        android:layout_marginBottom="20dp"
+        android:padding="5dp"
+        android:textStyle="bold"
+        android:textAlignment="center"
+        android:background="@drawable/three">
+    </TextView>
+
 
     <TableLayout
         android:id="@+id/scoreCard"
         android:background="@drawable/five"
         android:layout_alignParentBottom="true"
-
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:stretchColumns="*">

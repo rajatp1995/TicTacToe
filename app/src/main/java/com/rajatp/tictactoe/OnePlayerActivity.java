@@ -20,9 +20,10 @@ import java.util.Random;
 public class OnePlayerActivity extends AppCompatActivity {
 
     int currentPos=0, i=0, actualPos=0, flag=0, end=0, flagWinner=0, winnerDecided=0, lock=0, possibilityFlag=0;
+    int gameCounter=1;
     List<String> gameData = new ArrayList<>();
     String player1="", player2="", lastChance="";
-    TextView player1TV, player2TV, winner, txt, score1, score2;
+    TextView player1TV, player2TV, winner, txt, score1, score2, current;
     TableLayout tictactoe;
     Button restart;
     int scorePlayer1=0, scorePlayer2=0;
@@ -45,11 +46,13 @@ public class OnePlayerActivity extends AppCompatActivity {
         player2TV = (TextView) findViewById(R.id.player2Name);
         player2TV.setText("Player 2 is " + player2 + ", playing as O");
         restart = (Button) findViewById(R.id.restartGame_button);
-        restart.setVisibility(View.INVISIBLE);
+        restart.setVisibility(View.GONE);
         score1 = (TextView) findViewById(R.id.scoreP1);
         score2 = (TextView) findViewById(R.id.scoreP2);
-        score1.setText(player1 + ": " + scorePlayer1);
-        score2.setText(player2 + ": " + scorePlayer2);
+        score1.setText(player1 + ": " + scorePlayer1 + " out of " + (gameCounter-1));
+        score2.setText(player2 + ": " + scorePlayer2 + " out of " + (gameCounter-1));
+        current = (TextView) findViewById(R.id.currentTurn);
+        current.setText("Current Turn: " + player1);
         tictactoe = (TableLayout) findViewById(R.id.ticTacToeTable);
         for(int j=0;j<9;j++){
             String tagTemp = "pos_" + j;
@@ -78,6 +81,7 @@ public class OnePlayerActivity extends AppCompatActivity {
                     checkWinner();
                     if (flag != 1) {
                         currentPos++;
+                        current.setText("Current Turn: " + player2);
                         playCPU();
                     }
                 }
@@ -88,114 +92,108 @@ public class OnePlayerActivity extends AppCompatActivity {
     public void playCPU() {
         lock=1;
         Toast.makeText(OnePlayerActivity.this, "Android is thinking..", Toast.LENGTH_SHORT).show();
-        new CountDownTimer(1500, 500) {
+        new CountDownTimer(1000, 500) {
             @Override
             public void onTick(long millisUntilFinished) { }
-
             public void onFinish() {
-                int possibilityCheck=0;
-                List <Integer> possibility = new ArrayList<>();
-                possibility.clear();
-                possibility = probablisticMove(gameData);
-
-                if (possibility.size()==0) {
-                    List <Integer> AndroidWin = new ArrayList<>();
-                    AndroidWin.clear();
-                    AndroidWin = chanceToWin(possibility, gameData);
-                    if (AndroidWin.size()!=0) {
-                        int rIndex = randValue.nextInt(AndroidWin.size());
-                        int rvalue = AndroidWin.get(rIndex);
-                        if(gameData.get(rvalue)=="X" || gameData.get(rvalue)=="O") playCPU();
-                        else {
-                            String tag = "pos_"+rvalue;
-                            txt = tictactoe.findViewWithTag(tag);
-                            txt.setText("O");
-                            txt.setTextAlignment(View.TEXT_ALIGNMENT_CENTER);
-                            mPlayer.start();
-                            gameData.remove(rvalue);
-                            gameData.add(rvalue, "O");
-                            lastChance = player2;
-                            checkWinner();
-                            currentPos++;
-                            lock=0;
-                        }
-                    } else {
-                        playRandom();
-                    }
-                }
+                int CPU = getMove(gameData);
+                if (CPU==-1) playRandom();
                 else {
-                    possibilityFlag=1;
-                    for (int u=0;u<possibility.size();u++) {
-                        if (gameData.get(possibility.get(u))=="X" || gameData.get(possibility.get(u))=="O") possibilityCheck++;
-                    }
-                    if (possibilityCheck==possibility.size()) {
-                        List <Integer> AndroidWin = new ArrayList<>();
-                        AndroidWin.clear();
-                        AndroidWin = chanceToWin(possibility, gameData);
-                        if (AndroidWin.size()!=0) {
-                            int rIndex = randValue.nextInt(AndroidWin.size());
-                            int rvalue = AndroidWin.get(rIndex);
-                            if(gameData.get(rvalue)=="X" || gameData.get(rvalue)=="O") playCPU();
-                            else {
-                                String tag = "pos_"+rvalue;
-                                txt = tictactoe.findViewWithTag(tag);
-                                txt.setText("O");
-                                txt.setTextAlignment(View.TEXT_ALIGNMENT_CENTER);
-                                mPlayer.start();
-                                gameData.remove(rvalue);
-                                gameData.add(rvalue, "O");
-                                lastChance = player2;
-                                checkWinner();
-                                currentPos++;
-                                lock=0;
-                            }
-                        } else {
-                            playRandom();
-                        }
-                    }
-                }
-                if (possibilityCheck<possibility.size() && possibilityFlag==1) {
-                    List <Integer> AndroidWin = new ArrayList<>();
-                    AndroidWin.clear();
-                    AndroidWin = chanceToWin(possibility, gameData);
-                    if (AndroidWin.size()!=0) {
-                        int rIndex = randValue.nextInt(AndroidWin.size());
-                        int rvalue = AndroidWin.get(rIndex);
-                        if(gameData.get(rvalue)=="X" || gameData.get(rvalue)=="O") playCPU();
-                        else {
-                            String tag = "pos_"+rvalue;
-                            txt = tictactoe.findViewWithTag(tag);
-                            txt.setText("O");
-                            txt.setTextAlignment(View.TEXT_ALIGNMENT_CENTER);
-                            mPlayer.start();
-                            gameData.remove(rvalue);
-                            gameData.add(rvalue, "O");
-                            lastChance = player2;
-                            checkWinner();
-                            currentPos++;
-                            lock=0;
-                        }
-                    } else {
-                        int rIndex = randValue.nextInt(possibility.size());
-                        int rvalue = possibility.get(rIndex);
-                        if (gameData.get(rvalue) == "X" || gameData.get(rvalue) == "O") playCPU();
-                        else {
-                            String tag = "pos_" + rvalue;
-                            txt = tictactoe.findViewWithTag(tag);
-                            txt.setText("O");
-                            txt.setTextAlignment(View.TEXT_ALIGNMENT_CENTER);
-                            mPlayer.start();
-                            gameData.remove(rvalue);
-                            gameData.add(rvalue, "O");
-                            lastChance = player2;
-                            checkWinner();
-                            currentPos++;
-                            lock = 0;
-                        }
-                    }
+                    String tag = "pos_"+CPU;
+                    txt = tictactoe.findViewWithTag(tag);
+                    txt.setText("O");
+                    txt.setTextAlignment(View.TEXT_ALIGNMENT_CENTER);
+                    mPlayer.start();
+                    gameData.remove(CPU);
+                    gameData.add(CPU, "O");
+                    lastChance = player2;
+                    checkWinner();
+                    currentPos++;
+                    lock=0;
+                    current.setText("Current Turn: " + player1);
                 }
             }
         }.start();
+    }
+
+    public int getMove(List<String> gameInfo) {
+        int finalMove=0;
+        List<Integer> possibleMoves = new ArrayList<>();
+        List<Integer> possibleMovesToWin = new ArrayList<>();
+        List<Integer> possibleMovesFinal = new ArrayList<>();
+        List<Integer> possibleMovesToWinFinal = new ArrayList<>();
+        possibleMovesToWin.clear();
+        possibleMoves.clear();
+        possibleMovesToWinFinal.clear();
+        possibleMovesFinal.clear();
+
+        for (int i=0;i<3;i++) {
+            if (gameInfo.get(i)=="X" && gameInfo.get(i+3)=="X") possibleMoves.add(i+6);
+            if (gameInfo.get(i+3)=="X" && gameInfo.get(i+6)=="X") possibleMoves.add(i);
+            if (gameInfo.get(i)=="X" && gameInfo.get(i+6)=="X") possibleMoves.add(i+3);
+        }
+
+        for (int j=0;j<=6;j=j+3) {
+            if (gameInfo.get(j)=="X" && gameInfo.get(j+1)=="X") possibleMoves.add(j+2);
+            if (gameInfo.get(j+1)=="X" && gameInfo.get(j+2)=="X") possibleMoves.add(j);
+            if (gameInfo.get(j)=="X" && gameInfo.get(j+2)=="X") possibleMoves.add(j+1);
+        }
+
+        if (gameInfo.get(0)=="X" && gameInfo.get(4)=="X") possibleMoves.add(8);
+        if (gameInfo.get(4)=="X" && gameInfo.get(8)=="X") possibleMoves.add(0);
+        if (gameInfo.get(0)=="X" && gameInfo.get(8)=="X") possibleMoves.add(4);
+
+        if (gameInfo.get(2)=="X" && gameInfo.get(4)=="X") possibleMoves.add(6);
+        if (gameInfo.get(6)=="X" && gameInfo.get(4)=="X") possibleMoves.add(2);
+        if (gameInfo.get(2)=="X" && gameInfo.get(6)=="X") possibleMoves.add(4);
+
+
+        for (int i=0;i<3;i++) {
+            if (gameInfo.get(i)=="O" && gameInfo.get(i+3)=="O") possibleMovesToWin.add(i+6);
+            if (gameInfo.get(i+3)=="O" && gameInfo.get(i+6)=="O") possibleMovesToWin.add(i);
+            if (gameInfo.get(i)=="O" && gameInfo.get(i+6)=="O") possibleMovesToWin.add(i+3);
+        }
+
+        for (int j=0;j<=6;j=j+3) {
+            if (gameInfo.get(j)=="O" && gameInfo.get(j+1)=="O") possibleMovesToWin.add(j+2);
+            if (gameInfo.get(j+1)=="O" && gameInfo.get(j+2)=="O") possibleMovesToWin.add(j);
+            if (gameInfo.get(j)=="O" && gameInfo.get(j+2)=="O") possibleMovesToWin.add(j+1);
+        }
+
+        if (gameInfo.get(0)=="O" && gameInfo.get(4)=="O") possibleMovesToWin.add(8);
+        if (gameInfo.get(4)=="O" && gameInfo.get(8)=="O") possibleMovesToWin.add(0);
+        if (gameInfo.get(0)=="O" && gameInfo.get(8)=="O") possibleMovesToWin.add(4);
+
+        if (gameInfo.get(2)=="O" && gameInfo.get(4)=="O") possibleMovesToWin.add(6);
+        if (gameInfo.get(6)=="O" && gameInfo.get(4)=="O") possibleMovesToWin.add(2);
+        if (gameInfo.get(2)=="O" && gameInfo.get(6)=="O") possibleMovesToWin.add(4);
+
+        for (int t1=0;t1<possibleMoves.size();t1++) {
+            if (gameInfo.get(possibleMoves.get(t1))!="X" && gameInfo.get(possibleMoves.get(t1))!="O") {
+                possibleMovesFinal.add(possibleMoves.get(t1));
+            }
+        }
+
+        for (int t1=0;t1<possibleMovesToWin.size();t1++) {
+            if (gameInfo.get(possibleMovesToWin.get(t1))!="X" && gameInfo.get(possibleMovesToWin.get(t1))!="O") {
+                possibleMovesToWinFinal.add(possibleMovesToWin.get(t1));
+            }
+        }
+
+
+        if (possibleMovesToWinFinal.size()!=0) {
+            int rIndex = randValue.nextInt(possibleMovesToWinFinal.size());
+            finalMove = possibleMovesToWinFinal.get(rIndex);
+            return finalMove;
+        }
+
+        if (possibleMovesFinal.size()!=0) {
+            int rIndex = randValue.nextInt(possibleMovesFinal.size());
+            finalMove = possibleMovesFinal.get(rIndex);
+            return finalMove;
+        }
+
+        return -1;
     }
 
     public void checkWinner() {
@@ -263,8 +261,13 @@ public class OnePlayerActivity extends AppCompatActivity {
     }
 
     public void winnnerDisp() {
+        current.setVisibility(View.INVISIBLE);
         winner = (TextView) findViewById(R.id.winnerDisplay);
-        if (end==0) winner.setText("Game ended in a tie");
+        if (end==0) {
+            winner.setText("Game ended in a tie");
+            score1.setText(player1 + ": " + scorePlayer1 + " out of " + gameCounter);
+            score2.setText(player2 + ": " + scorePlayer2 + " out of " + gameCounter);
+        }
         else winner.setText(lastChance + " won the game");
         flagWinner=1;
         restart.setVisibility(View.VISIBLE);
@@ -273,8 +276,8 @@ public class OnePlayerActivity extends AppCompatActivity {
             if (end != 0) {
                 if (lastChance == player1) scorePlayer1++;
                 if (lastChance == player2) scorePlayer2++;
-                score1.setText(player1 + ": " + scorePlayer1);
-                score2.setText(player2 + ": " + scorePlayer2);
+                score1.setText(player1 + ": " + scorePlayer1 + " out of " + gameCounter);
+                score2.setText(player2 + ": " + scorePlayer2 + " out of " + gameCounter);
             }
         }
     }
@@ -293,10 +296,12 @@ public class OnePlayerActivity extends AppCompatActivity {
     }
 
     public void restartGame(View view) {
+        gameCounter++;
+        current.setVisibility(View.VISIBLE);
         currentPos=0; i=0; actualPos=0; flag=0; end=0; flagWinner=0; winnerDecided=0; lock=0; possibilityFlag=0;
         gameData.clear();
         for (i=0;i<9;i++) gameData.add(Integer.toString(i));
-        restart.setVisibility(View.INVISIBLE);
+        restart.setVisibility(View.GONE);
         winner = (TextView) findViewById(R.id.winnerDisplay);
         winner.setText("Game in progress..");
         tictactoe = (TableLayout) findViewById(R.id.ticTacToeTable);
@@ -306,34 +311,13 @@ public class OnePlayerActivity extends AppCompatActivity {
             tempTX.setBackground(getResources().getDrawable(R.drawable.one));
             tempTX.setText(null);
         }
+        if (gameCounter%2==0) {
+            current.setText("Current Turn: " + player2);
+            playCPU();
+        }
+        else Toast.makeText(OnePlayerActivity.this, player1 + " starts the game", Toast.LENGTH_SHORT).show();
     }
 
-    public List<Integer> probablisticMove (List<String> gameInfo) {
-        List<Integer> possibleMoves = new ArrayList<>();
-        possibleMoves.clear();
-
-        for (int i=0;i<3;i++) {
-            if (gameInfo.get(i)=="X" && gameInfo.get(i+3)=="X") possibleMoves.add(i+6);
-            if (gameInfo.get(i+3)=="X" && gameInfo.get(i+6)=="X") possibleMoves.add(i);
-            if (gameInfo.get(i)=="X" && gameInfo.get(i+6)=="X") possibleMoves.add(i+3);
-        }
-
-        for (int j=0;j<=6;j=j+3) {
-            if (gameInfo.get(j)=="X" && gameInfo.get(j+1)=="X") possibleMoves.add(j+2);
-            if (gameInfo.get(j+1)=="X" && gameInfo.get(j+2)=="X") possibleMoves.add(j);
-            if (gameInfo.get(j)=="X" && gameInfo.get(j+2)=="X") possibleMoves.add(j+1);
-        }
-
-        if (gameInfo.get(0)=="X" && gameInfo.get(4)=="X") possibleMoves.add(8);
-        if (gameInfo.get(4)=="X" && gameInfo.get(8)=="X") possibleMoves.add(0);
-        if (gameInfo.get(0)=="X" && gameInfo.get(8)=="X") possibleMoves.add(4);
-
-        if (gameInfo.get(2)=="X" && gameInfo.get(4)=="X") possibleMoves.add(6);
-        if (gameInfo.get(6)=="X" && gameInfo.get(4)=="X") possibleMoves.add(2);
-        if (gameInfo.get(2)=="X" && gameInfo.get(6)=="X") possibleMoves.add(4);
-
-        return possibleMoves;
-    }
 
     public void playRandom() {
         int rvalue = randValue.nextInt(9);
@@ -350,53 +334,8 @@ public class OnePlayerActivity extends AppCompatActivity {
             checkWinner();
             currentPos++;
             lock=0;
+            current.setText("Current Turn: " + player1);
         }
-    }
-
-    public List<Integer> chanceToWin(List<Integer> possibility, List<String> gameInfo) {
-        List<Integer> possibleMovesToWin = new ArrayList<>();
-        possibleMovesToWin.clear();
-
-        for (int i=0;i<3;i++) {
-            if (gameInfo.get(i)=="O" && gameInfo.get(i+3)=="O") possibleMovesToWin.add(i+6);
-            if (gameInfo.get(i+3)=="O" && gameInfo.get(i+6)=="O") possibleMovesToWin.add(i);
-            if (gameInfo.get(i)=="O" && gameInfo.get(i+6)=="O") possibleMovesToWin.add(i+3);
-        }
-
-        for (int j=0;j<=6;j=j+3) {
-            if (gameInfo.get(j)=="O" && gameInfo.get(j+1)=="O") possibleMovesToWin.add(j+2);
-            if (gameInfo.get(j+1)=="O" && gameInfo.get(j+2)=="O") possibleMovesToWin.add(j);
-            if (gameInfo.get(j)=="O" && gameInfo.get(j+2)=="O") possibleMovesToWin.add(j+1);
-        }
-
-        if (gameInfo.get(0)=="O" && gameInfo.get(4)=="O") possibleMovesToWin.add(8);
-        if (gameInfo.get(4)=="O" && gameInfo.get(8)=="O") possibleMovesToWin.add(0);
-        if (gameInfo.get(0)=="O" && gameInfo.get(8)=="O") possibleMovesToWin.add(4);
-
-        if (gameInfo.get(2)=="O" && gameInfo.get(4)=="O") possibleMovesToWin.add(6);
-        if (gameInfo.get(6)=="O" && gameInfo.get(4)=="O") possibleMovesToWin.add(2);
-        if (gameInfo.get(2)=="O" && gameInfo.get(6)=="O") possibleMovesToWin.add(4);
-
-        if(possibleMovesToWin.size()==1)
-        {
-            if (gameInfo.get(possibleMovesToWin.get(0))=="X" || gameInfo.get(possibleMovesToWin.get(0))=="O") {
-                possibleMovesToWin.remove(0);
-            }
-        }
-
-        if(possibleMovesToWin.size()==2)
-        {
-            if (gameInfo.get(possibleMovesToWin.get(0))=="X" || gameInfo.get(possibleMovesToWin.get(0))=="O") {
-                possibleMovesToWin.remove(0);
-            }
-            if (gameInfo.get(possibleMovesToWin.get(0))=="X" || gameInfo.get(possibleMovesToWin.get(0))=="O") {
-                possibleMovesToWin.remove(0);
-            }
-        }
-
-        Log.i("Moves to Block", possibility.toString());
-        Log.i("Moves to Win", possibleMovesToWin.toString());
-        return possibleMovesToWin;
     }
 
     @Override

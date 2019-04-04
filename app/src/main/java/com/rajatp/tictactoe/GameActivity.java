@@ -23,10 +23,10 @@ import static android.view.View.TEXT_ALIGNMENT_CENTER;
 
 public class GameActivity extends AppCompatActivity {
 
-    int currentPos=0, i=0, end=0, flagWinner=0, winnerDecided=0;
+    int currentPos=0, i=0, end=0, flagWinner=0, winnerDecided=0, gameCounter=1;
     List<String> gameData = new ArrayList<>();
     String player1="", player2="", lastChance="";
-    TextView player1TV, player2TV, winner, score1, score2;
+    TextView player1TV, player2TV, winner, score1, score2, current;
     TableLayout tictactoe;
     Button restart;
     int scorePlayer1=0, scorePlayer2=0;
@@ -47,11 +47,13 @@ public class GameActivity extends AppCompatActivity {
         player2TV = (TextView) findViewById(R.id.player2Name);
         player2TV.setText("Player 2 is " + player2 + ", playing as O");
         restart = (Button) findViewById(R.id.restartGame_button);
-        restart.setVisibility(View.INVISIBLE);
+        restart.setVisibility(View.GONE);
+        current = (TextView) findViewById(R.id.currentTurn);
+        current.setText("Current Turn: " + player1);
         score1 = (TextView) findViewById(R.id.scoreP1);
         score2 = (TextView) findViewById(R.id.scoreP2);
-        score1.setText(player1 + ": " + scorePlayer1);
-        score2.setText(player2 + ": " + scorePlayer2);
+        score1.setText(player1 + ": " + scorePlayer1 + " out of " + (gameCounter-1));
+        score2.setText(player2 + ": " + scorePlayer2 + " out of " + (gameCounter-1));
         tictactoe = (TableLayout) findViewById(R.id.ticTacToeTable);
         for(int j=0;j<9;j++){
             String tagTemp = "pos_" + j;
@@ -78,6 +80,7 @@ public class GameActivity extends AppCompatActivity {
                     gameData.remove(actualPos);
                     gameData.add(actualPos, "X");
                     lastChance = player1;
+                    current.setText("Current Turn: " + player2);
                 } else {
                     txt.setText("O");
                     txt.setTextAlignment(View.TEXT_ALIGNMENT_CENTER);
@@ -85,6 +88,7 @@ public class GameActivity extends AppCompatActivity {
                     gameData.remove(actualPos);
                     gameData.add(actualPos, "Y");
                     lastChance = player2;
+                    current.setText("Current Turn: " + player1);
                 }
                 checkWinner();
                 currentPos++;
@@ -154,14 +158,17 @@ public class GameActivity extends AppCompatActivity {
         if (end==0) winner.setText("Game ended in a tie");
         else winner.setText(lastChance + " won the game");
         flagWinner=1;
+        score1.setText(player1 + ": " + scorePlayer1 + " out of " + gameCounter);
+        score2.setText(player2 + ": " + scorePlayer2 + " out of " + gameCounter);
         restart.setVisibility(View.VISIBLE);
+        current.setVisibility(View.GONE);
         tictactoe = (TableLayout) findViewById(R.id.ticTacToeTable);
         if (winnerDecided==0) {
             if (end != 0) {
                 if (lastChance == player1) scorePlayer1++;
                 if (lastChance == player2) scorePlayer2++;
-                score1.setText(player1 + ": " + scorePlayer1);
-                score2.setText(player2 + ": " + scorePlayer2);
+                score1.setText(player1 + ": " + scorePlayer1 + " out of " + gameCounter);
+                score2.setText(player2 + ": " + scorePlayer2 + " out of " + gameCounter);
             }
         }
     }
@@ -180,10 +187,12 @@ public class GameActivity extends AppCompatActivity {
     }
 
     public void restartGame(View view) {
-        currentPos=0; i=0; end=0; flagWinner=0;
+        gameCounter++;
+        currentPos=0; i=0; end=0; flagWinner=0; winnerDecided=0;
         gameData.clear();
         for (i=0;i<9;i++) gameData.add(Integer.toString(i));
-        restart.setVisibility(View.INVISIBLE);
+        restart.setVisibility(View.GONE);
+        current.setVisibility(View.VISIBLE);
         winner = (TextView) findViewById(R.id.winnerDisplay);
         winner.setText("Game in progress..");
         tictactoe = (TableLayout) findViewById(R.id.ticTacToeTable);
@@ -193,6 +202,7 @@ public class GameActivity extends AppCompatActivity {
             tempTX.setBackground(getResources().getDrawable(R.drawable.one));
             tempTX.setText(null);
         }
+        current.setText("Current Turn: " + player1);
     }
 
     @Override
