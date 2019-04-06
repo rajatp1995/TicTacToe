@@ -11,6 +11,7 @@ import android.util.Log;
 import android.view.Gravity;
 import android.view.View;
 import android.widget.Button;
+import android.widget.GridLayout;
 import android.widget.TableLayout;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -27,7 +28,7 @@ public class GameActivity extends AppCompatActivity {
     List<String> gameData = new ArrayList<>();
     String player1="", player2="", lastChance="";
     TextView player1TV, player2TV, winner, score1, score2, current;
-    TableLayout tictactoe;
+    GridLayout tictactoe;
     Button restart;
     int scorePlayer1=0, scorePlayer2=0;
     MediaPlayer mPlayer;
@@ -35,7 +36,7 @@ public class GameActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_game);
+        setContentView(R.layout.game_layout);
 
         mPlayer = MediaPlayer.create(this, R.raw.chanceplayednew);
         for (i=0;i<9;i++) gameData.add(Integer.toString(i));
@@ -54,7 +55,7 @@ public class GameActivity extends AppCompatActivity {
         score2 = (TextView) findViewById(R.id.scoreP2);
         score1.setText(player1 + ": " + scorePlayer1 + " out of " + (gameCounter-1));
         score2.setText(player2 + ": " + scorePlayer2 + " out of " + (gameCounter-1));
-        tictactoe = (TableLayout) findViewById(R.id.ticTacToeTable);
+        tictactoe = (GridLayout) findViewById(R.id.ticTacToeTable);
         for(int j=0;j<9;j++){
             String tagTemp = "pos_" + j;
             TextView tempTX = (TextView) tictactoe.findViewWithTag(tagTemp);
@@ -75,6 +76,7 @@ public class GameActivity extends AppCompatActivity {
             } else {
                 if (currentPos % 2 == 0) {
                     txt.setText("X");
+                    txt.setTextSize(40);
                     txt.setTextAlignment(View.TEXT_ALIGNMENT_CENTER);
                     mPlayer.start();
                     gameData.remove(actualPos);
@@ -83,6 +85,7 @@ public class GameActivity extends AppCompatActivity {
                     current.setText("Current Turn: " + player2);
                 } else {
                     txt.setText("O");
+                    txt.setTextSize(40);
                     txt.setTextAlignment(View.TEXT_ALIGNMENT_CENTER);
                     mPlayer.start();
                     gameData.remove(actualPos);
@@ -162,7 +165,7 @@ public class GameActivity extends AppCompatActivity {
         score2.setText(player2 + ": " + scorePlayer2 + " out of " + gameCounter);
         restart.setVisibility(View.VISIBLE);
         current.setVisibility(View.GONE);
-        tictactoe = (TableLayout) findViewById(R.id.ticTacToeTable);
+        tictactoe = (GridLayout) findViewById(R.id.ticTacToeTable);  ///////
         if (winnerDecided==0) {
             if (end != 0) {
                 if (lastChance == player1) scorePlayer1++;
@@ -174,7 +177,7 @@ public class GameActivity extends AppCompatActivity {
     }
 
     public void highlight (int h1, int h2, int h3) {
-        tictactoe = (TableLayout) findViewById(R.id.ticTacToeTable);
+        tictactoe = (GridLayout) findViewById(R.id.ticTacToeTable);    //////
         String tag1 = "pos_" + h1;
         String tag2 = "pos_" + h2;
         String tag3 = "pos_" + h3;
@@ -195,12 +198,12 @@ public class GameActivity extends AppCompatActivity {
         current.setVisibility(View.VISIBLE);
         winner = (TextView) findViewById(R.id.winnerDisplay);
         winner.setText("Game in progress..");
-        tictactoe = (TableLayout) findViewById(R.id.ticTacToeTable);
+        tictactoe = (GridLayout) findViewById(R.id.ticTacToeTable);    ////////
         for(int j=0;j<9;j++){
             String tagTemp = "pos_" + j;
             TextView tempTX = (TextView) tictactoe.findViewWithTag(tagTemp);
             tempTX.setBackground(getResources().getDrawable(R.drawable.one));
-            tempTX.setText(null);
+            tempTX.setText("");
         }
         current.setText("Current Turn: " + player1);
     }

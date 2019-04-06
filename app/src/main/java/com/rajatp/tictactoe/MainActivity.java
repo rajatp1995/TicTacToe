@@ -74,10 +74,16 @@ public class MainActivity extends AppCompatActivity {
 
     public void startPlayer1Game(View view) {
         EditText name1 = (EditText) findViewById(R.id.onePlayerDetails);
-        Intent intent = new Intent(getApplicationContext(), OnePlayerActivity.class);
-        intent.putExtra("player1", name1.getText().toString());
-        startActivity(intent);
-        overridePendingTransition(R.anim.fade_in, R.anim.fade_out);
+        if (name1.getText().toString().equalsIgnoreCase("crazy")) {
+            Intent intent = new Intent(getApplicationContext(), CPUvsCPUActivity.class);
+            startActivity(intent);
+            overridePendingTransition(R.anim.fade_in, R.anim.fade_out);
+        } else {
+            Intent intent = new Intent(getApplicationContext(), OnePlayerActivity.class);
+            intent.putExtra("player1", name1.getText().toString());
+            startActivity(intent);
+            overridePendingTransition(R.anim.fade_in, R.anim.fade_out);
+        }
     }
 
     public void startmultiPlayerGame(View view) {

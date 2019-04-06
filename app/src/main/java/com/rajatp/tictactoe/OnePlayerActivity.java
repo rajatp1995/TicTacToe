@@ -9,6 +9,7 @@ import android.util.Log;
 import android.view.Gravity;
 import android.view.View;
 import android.widget.Button;
+import android.widget.GridLayout;
 import android.widget.TableLayout;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -24,7 +25,7 @@ public class OnePlayerActivity extends AppCompatActivity {
     List<String> gameData = new ArrayList<>();
     String player1="", player2="", lastChance="";
     TextView player1TV, player2TV, winner, txt, score1, score2, current;
-    TableLayout tictactoe;
+    GridLayout tictactoe;
     Button restart;
     int scorePlayer1=0, scorePlayer2=0;
     Random randValue = new Random();
@@ -33,10 +34,10 @@ public class OnePlayerActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_game);
+        setContentView(R.layout.game_layout);
 
         mPlayer = MediaPlayer.create(this, R.raw.chanceplayednew);
-        tictactoe = (TableLayout) findViewById(R.id.ticTacToeTable);
+        tictactoe = (GridLayout) findViewById(R.id.ticTacToeTable);
         for (i=0;i<9;i++) gameData.add(Integer.toString(i));
         player1 = (String) getIntent().getSerializableExtra("player1");
         player2 = "Android";
@@ -53,7 +54,7 @@ public class OnePlayerActivity extends AppCompatActivity {
         score2.setText(player2 + ": " + scorePlayer2 + " out of " + (gameCounter-1));
         current = (TextView) findViewById(R.id.currentTurn);
         current.setText("Current Turn: " + player1);
-        tictactoe = (TableLayout) findViewById(R.id.ticTacToeTable);
+        tictactoe = (GridLayout) findViewById(R.id.ticTacToeTable);
         for(int j=0;j<9;j++){
             String tagTemp = "pos_" + j;
             TextView tempTX = (TextView) tictactoe.findViewWithTag(tagTemp);
@@ -73,6 +74,7 @@ public class OnePlayerActivity extends AppCompatActivity {
                     Toast.makeText(OnePlayerActivity.this, "Occupied", Toast.LENGTH_SHORT).show();
                 } else {
                     txt.setText("X");
+                    txt.setTextSize(40);
                     txt.setTextAlignment(View.TEXT_ALIGNMENT_CENTER);
                     mPlayer.start();
                     gameData.remove(actualPos);
@@ -102,6 +104,7 @@ public class OnePlayerActivity extends AppCompatActivity {
                     String tag = "pos_"+CPU;
                     txt = tictactoe.findViewWithTag(tag);
                     txt.setText("O");
+                    txt.setTextSize(40);
                     txt.setTextAlignment(View.TEXT_ALIGNMENT_CENTER);
                     mPlayer.start();
                     gameData.remove(CPU);
@@ -271,7 +274,7 @@ public class OnePlayerActivity extends AppCompatActivity {
         else winner.setText(lastChance + " won the game");
         flagWinner=1;
         restart.setVisibility(View.VISIBLE);
-        tictactoe = (TableLayout) findViewById(R.id.ticTacToeTable);
+        tictactoe = (GridLayout) findViewById(R.id.ticTacToeTable);
         if (winnerDecided==0) {
             if (end != 0) {
                 if (lastChance == player1) scorePlayer1++;
@@ -283,7 +286,7 @@ public class OnePlayerActivity extends AppCompatActivity {
     }
 
     public void highlight (int h1, int h2, int h3) {
-        tictactoe = (TableLayout) findViewById(R.id.ticTacToeTable);
+        tictactoe = (GridLayout) findViewById(R.id.ticTacToeTable);
         String tag1 = "pos_" + h1;
         String tag2 = "pos_" + h2;
         String tag3 = "pos_" + h3;
@@ -304,12 +307,12 @@ public class OnePlayerActivity extends AppCompatActivity {
         restart.setVisibility(View.GONE);
         winner = (TextView) findViewById(R.id.winnerDisplay);
         winner.setText("Game in progress..");
-        tictactoe = (TableLayout) findViewById(R.id.ticTacToeTable);
+        tictactoe = (GridLayout) findViewById(R.id.ticTacToeTable);
         for(int j=0;j<9;j++){
             String tagTemp = "pos_" + j;
             TextView tempTX = (TextView) tictactoe.findViewWithTag(tagTemp);
             tempTX.setBackground(getResources().getDrawable(R.drawable.one));
-            tempTX.setText(null);
+            tempTX.setText("");
         }
         if (gameCounter%2==0) {
             current.setText("Current Turn: " + player2);
@@ -321,11 +324,12 @@ public class OnePlayerActivity extends AppCompatActivity {
 
     public void playRandom() {
         int rvalue = randValue.nextInt(9);
-        if(gameData.get(rvalue)=="X" || gameData.get(rvalue)=="O") playCPU();
+        if (gameData.get(rvalue) == "X" || gameData.get(rvalue) == "O") playRandom();
         else {
             String tag = "pos_"+rvalue;
             txt = tictactoe.findViewWithTag(tag);
             txt.setText("O");
+            txt.setTextSize(40);
             txt.setTextAlignment(View.TEXT_ALIGNMENT_CENTER);
             mPlayer.start();
             gameData.remove(rvalue);

@@ -1,9 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    xmlns:tools="http://schemas.android.com/tools"
     android:background="#dad5fd"
     tools:context=".GameActivity">
 
@@ -30,89 +29,108 @@
         android:layout_marginLeft="20dp">
     </TextView>
 
-    <TableLayout
+    <GridLayout
         android:id="@+id/ticTacToeTable"
         android:layout_below="@id/player2Name"
         android:layout_marginTop="40dp"
         android:layout_marginLeft="20dp"
         android:layout_marginRight="20dp"
+        android:rowCount="3"
+        android:columnCount="3"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:stretchColumns="0,1,2">
+        android:layout_height="wrap_content">
 
-        <TableRow>
-            <TextView
-                android:id="@+id/pos_1"
-                android:tag="pos_0"
-                android:layout_height="60dp"
-                android:background="@drawable/one"
-                android:onClick="chancePlayed">
-            </TextView>
-            <TextView
-                android:id="@+id/pos_2"
-                android:tag="pos_1"
-                android:layout_height="60dp"
-                android:background="@drawable/one"
-                android:onClick="chancePlayed">
-            </TextView>
-            <TextView
-                android:id="@+id/pos_3"
-                android:tag="pos_2"
-                android:layout_height="60dp"
-                android:background="@drawable/one"
-                android:onClick="chancePlayed">
-            </TextView>
-        </TableRow>
+        <TextView
+            android:id="@+id/pos_1"
+            android:tag="pos_0"
+            android:layout_height="60dp"
+            android:background="@drawable/one"
+            android:onClick="chancePlayed"
+            android:layout_gravity="fill"
+            android:layout_rowWeight="1"
+            android:layout_columnWeight="1"></TextView>
 
-        <TableRow>
-            <TextView
-                android:id="@+id/pos_4"
-                android:tag="pos_3"
-                android:layout_height="60dp"
-                android:background="@drawable/one"
-                android:onClick="chancePlayed">
-            </TextView>
-            <TextView
-                android:id="@+id/pos_5"
-                android:tag="pos_4"
-                android:layout_height="60dp"
-                android:background="@drawable/one"
-                android:onClick="chancePlayed">
-            </TextView>
-            <TextView
-                android:id="@+id/pos_6"
-                android:tag="pos_5"
-                android:layout_height="60dp"
-                android:background="@drawable/one"
-                android:onClick="chancePlayed">
-            </TextView>
-        </TableRow>
+        <TextView
+            android:id="@+id/pos_2"
+            android:tag="pos_1"
+            android:layout_height="60dp"
+            android:background="@drawable/one"
+            android:onClick="chancePlayed"
+            android:layout_gravity="fill"
+            android:layout_rowWeight="1"
+            android:layout_columnWeight="1"></TextView>
 
-        <TableRow>
-            <TextView
-                android:id="@+id/pos_7"
-                android:tag="pos_6"
-                android:layout_height="60dp"
-                android:background="@drawable/one"
-                android:onClick="chancePlayed">
-            </TextView>
-            <TextView
-                android:id="@+id/pos_8"
-                android:tag="pos_7"
-                android:layout_height="60dp"
-                android:background="@drawable/one"
-                android:onClick="chancePlayed">
-            </TextView>
-            <TextView
-                android:id="@+id/pos_9"
-                android:tag="pos_8"
-                android:layout_height="60dp"
-                android:background="@drawable/one"
-                android:onClick="chancePlayed">
-            </TextView>
-        </TableRow>
+        <TextView
+            android:id="@+id/pos_3"
+            android:tag="pos_2"
+            android:layout_height="60dp"
+            android:background="@drawable/one"
+            android:onClick="chancePlayed"
+            android:layout_gravity="fill"
+            android:layout_rowWeight="1"
+            android:layout_columnWeight="1"></TextView>
 
-    </TableLayout>
+        <TextView
+            android:id="@+id/pos_4"
+            android:tag="pos_3"
+            android:layout_height="60dp"
+            android:background="@drawable/one"
+            android:onClick="chancePlayed"
+            android:layout_gravity="fill"
+            android:layout_rowWeight="1"
+            android:layout_columnWeight="1"></TextView>
+
+        <TextView
+            android:id="@+id/pos_5"
+            android:tag="pos_4"
+            android:layout_height="60dp"
+            android:background="@drawable/one"
+            android:onClick="chancePlayed"
+            android:layout_gravity="fill"
+            android:layout_rowWeight="1"
+            android:layout_columnWeight="1"></TextView>
+
+        <TextView
+            android:id="@+id/pos_6"
+            android:tag="pos_5"
+            android:layout_height="60dp"
+            android:background="@drawable/one"
+            android:onClick="chancePlayed"
+            android:layout_gravity="fill"
+            android:layout_rowWeight="1"
+            android:layout_columnWeight="1"></TextView>
+
+        <TextView
+            android:id="@+id/pos_7"
+            android:tag="pos_6"
+            android:layout_height="60dp"
+            android:background="@drawable/one"
+            android:onClick="chancePlayed"
+            android:layout_gravity="fill"
+            android:layout_rowWeight="1"
+            android:layout_columnWeight="1"></TextView>
+
+        <TextView
+            android:id="@+id/pos_8"
+            android:tag="pos_7"
+            android:layout_height="60dp"
+            android:background="@drawable/one"
+            android:onClick="chancePlayed"
+            android:layout_gravity="fill"
+            android:layout_rowWeight="1"
+            android:layout_columnWeight="1"></TextView>
+
+        <TextView
+            android:id="@+id/pos_9"
+            android:tag="pos_8"
+            android:layout_height="60dp"
+            android:background="@drawable/one"
+            android:onClick="chancePlayed"
+            android:layout_gravity="fill"
+            android:layout_rowWeight="1"
+            android:layout_columnWeight="1"></TextView>
+
+    </GridLayout>
 
     <TextView
         android:id="@+id/winnerDisplay"

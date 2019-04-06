@@ -8,6 +8,7 @@ import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
+import android.widget.GridLayout;
 import android.widget.TableLayout;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -32,7 +33,7 @@ public class OnlineMultiplayerActivity extends AppCompatActivity {
     List<String> gameData = new ArrayList<>();
     String player="", player1="", player2="", gameRoom="", currentTurn="", currentState="";
     TextView player1TV, player2TV, winner, score1, score2, current;
-    TableLayout tictactoe;
+    GridLayout tictactoe;
     Button restart;
     int scorePlayer1=0, scorePlayer2=0;
     MediaPlayer mPlayer;
@@ -41,7 +42,7 @@ public class OnlineMultiplayerActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_game);
+        setContentView(R.layout.game_layout);
 
         mPlayer = MediaPlayer.create(this, R.raw.chanceplayednew);
         for (i=0;i<9;i++) gameData.add(Integer.toString(i));
@@ -59,7 +60,7 @@ public class OnlineMultiplayerActivity extends AppCompatActivity {
         current = (TextView) findViewById(R.id.currentTurn);
         current.setVisibility(View.INVISIBLE);
         winner.setText("Game not yet started");
-        tictactoe = (TableLayout) findViewById(R.id.ticTacToeTable);
+        tictactoe = (GridLayout) findViewById(R.id.ticTacToeTable);
         tictactoe.setVisibility(View.INVISIBLE);
 
         onlineData = new ValueEventListener() {
@@ -100,7 +101,7 @@ public class OnlineMultiplayerActivity extends AppCompatActivity {
             score2 = (TextView) findViewById(R.id.scoreP2);
             score1.setText(player1 + ": " + scorePlayer1 + " out of " + (gameCounter-1));
             score2.setText(player2 + ": " + scorePlayer2 + " out of " + (gameCounter-1));
-            tictactoe = (TableLayout) findViewById(R.id.ticTacToeTable);
+            tictactoe = (GridLayout) findViewById(R.id.ticTacToeTable);
             tictactoe.setVisibility(View.VISIBLE);
             for (int j = 0; j < 9; j++) {
                 String tagTemp = "pos_" + j;
@@ -143,13 +144,14 @@ public class OnlineMultiplayerActivity extends AppCompatActivity {
 
     public void createBoard() {
         if (first!=0) mPlayer.start();
-        tictactoe = (TableLayout) findViewById(R.id.ticTacToeTable);
+        tictactoe = (GridLayout) findViewById(R.id.ticTacToeTable);
         for(int j=0;j<9;j++) {
             if (gameData.get(j).equals("X") || gameData.get(j).equals("O")) {
                 String tagTemp = "pos_" + j;
                 TextView tempTX = (TextView) tictactoe.findViewWithTag(tagTemp);
                 tempTX.setBackground(getResources().getDrawable(R.drawable.one));
                 tempTX.setText(gameData.get(j));
+                tempTX.setTextSize(40);
                 tempTX.setTextAlignment(View.TEXT_ALIGNMENT_CENTER);
             } else {
                 String tagTemp = "pos_" + j;
@@ -274,7 +276,7 @@ public class OnlineMultiplayerActivity extends AppCompatActivity {
         myGameRefPlay.removeEventListener(onlinePlayData);
         restart.setVisibility(View.VISIBLE);
         current.setVisibility(View.GONE);
-        tictactoe = (TableLayout) findViewById(R.id.ticTacToeTable);
+        tictactoe = (GridLayout) findViewById(R.id.ticTacToeTable);
         if (winnerDecided==0) {
             if (end != 0) {
                 if (currentTurn.equals(player1)) scorePlayer2++;
@@ -287,7 +289,7 @@ public class OnlineMultiplayerActivity extends AppCompatActivity {
     }
 
     public void highlight (int h1, int h2, int h3) {
-        tictactoe = (TableLayout) findViewById(R.id.ticTacToeTable);
+        tictactoe = (GridLayout) findViewById(R.id.ticTacToeTable);
         String tag1 = "pos_" + h1;
         String tag2 = "pos_" + h2;
         String tag3 = "pos_" + h3;
@@ -307,12 +309,12 @@ public class OnlineMultiplayerActivity extends AppCompatActivity {
         current.setVisibility(View.VISIBLE);
         winner = (TextView) findViewById(R.id.winnerDisplay);
         winner.setText("Game in progress..");
-        tictactoe = (TableLayout) findViewById(R.id.ticTacToeTable);
+        tictactoe = (GridLayout) findViewById(R.id.ticTacToeTable);
         for(int j=0;j<9;j++){
             String tagTemp = "pos_" + j;
             TextView tempTX = (TextView) tictactoe.findViewWithTag(tagTemp);
             tempTX.setBackground(getResources().getDrawable(R.drawable.one));
-            tempTX.setText(null);
+            tempTX.setText("");
         }
         myGameRefPlay.removeEventListener(onlinePlayData);
         myGameRefPlay.child("").removeValue();
